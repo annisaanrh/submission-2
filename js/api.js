@@ -1,4 +1,4 @@
-var base_url = "https://api.football-data.org/v2/";
+var base_url = "https://api.football-data.org/v2/competitions/2002/standings";
 // Blok kode yang akan di panggil jika fetch berhasil
 function status(response) {
   if (response.status !== 200) {
@@ -19,7 +19,7 @@ function error(error) {
   // Parameter error berasal dari Promise.reject()
   console.log("Error : " + error);
 }
-var request = new Request(base_url + "competitions/2015/standings", {
+var request = new Request(base_url + "competitions/2002/standings", {
     headers: new Headers({
         'X-Auth-Token' : '37209e11774845f298285ae0df906655'
     })
