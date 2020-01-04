@@ -41,10 +41,11 @@ fetch(base_url, {
 })
     .then(res => res.json())
     .then(function(data) {
+
       // Objek/array JavaScript dari response.json() masuk lewat data.
-      // Menyusun komponen card artikel secara dinamis
-      var articlesHTML = "";
-        data.result.forEach(function(team) {
+    // Menyusun komponen card artikel secara dinamis
+    var articlesHTML = "";
+    data.standings.forEach(function(team){
         articlesHTML += `
               <div class="card">
                 <a href="./article.html?id=${team.id}">
@@ -58,8 +59,6 @@ fetch(base_url, {
                 </div>
               </div>
             `;
-      });
-      // Sisipkan komponen card ke dalam elemen dengan id #content
-      document.getElementById("articles").innerHTML = articlesHTML;
-    })
+    });
+    }).catch(error);
 }
