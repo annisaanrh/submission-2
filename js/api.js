@@ -60,5 +60,10 @@ fetch(base_url, {
               </div>
             `;
     });
-    }).catch(error);
+    // Sisipkan komponen card ke dalam elemen dengan id #content
+      document.getElementById("articles").innerHTML = articlesHTML;
+    })
+    .catch(err => {
+        console.log(err)
+});
 }
