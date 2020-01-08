@@ -1,4 +1,4 @@
-var base_url = "https://api.football-data.org/v2/competitions/2002/standings";
+var base_url = "https://api.football-data.org/v2";
 // Blok kode yang akan di panggil jika fetch berhasil
 function status(response) {
   if (response.status !== 200) {
@@ -19,6 +19,8 @@ function error(error) {
   // Parameter error berasal dari Promise.reject()
   console.log("Error : " + error);
 }
+
+// HALAMAN 1 //
 var request = new Request(base_url + "/v2/competitions/2002/standings", {
     headers: new Headers({
         'X-Auth-Token' : '37209e11774845f298285ae0df906655'
@@ -52,29 +54,30 @@ fetch(base_url, {
             <tr> 
                 <th>Team</th>
                 <th></th>
-                <th>Draw</th>  
+                <th>Won</th>
+                <th>Draw</th>
+                <th>Lost</th>
                 <th>Goal Difference</th>
                 <th>Goal Against</th>  
-                <th>Lost</th>
                 <th>Played Games</th>  
                 <th>Points</th>
                 <th>Position</th>  
-                <th>Won</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>${item.team.name}</td>
                 <td style><img style="width:50px;" src="${item.team.crestUrI}"></td>
+                <td>${item.won}</td>    
                 <td>${item.draw}</td>
+                <td>${item.lost}</td>
                 <td>${item.goalDifference}</td>
                 <td>${item.goalsAgainst}</td>
                 <td>${item.goalsFor}</td>
-                <td>${item.lost}</td>
                 <td>${item.playedGames}</td>
                 <td>${item.points}</td>
                 <td>${item.position}</td>
-                <td>${item.won}</td>            
+        
             </tr>
         </tbody>
         </table>
@@ -86,4 +89,44 @@ fetch(base_url, {
     .catch(err => {
         console.log(err)
 });
+}
+
+// HALAMAN 2 //
+var request = new Request(base_url + "/matches", {
+    headers: new Headers({
+        'X-Auth-Token' : '37209e11774845f298285ae0df906655'
+    })
+});
+// Blok kode untuk melakukan request data json
+function getArticles() {
+    fetch(request)
+        .then(status)
+        .then(json)
+        .then(function(data){
+        console.log(data);
+        // Objek/array JavaScript dari response.json() masuk lewat data.
+      // Menyusun komponen card artikel secara dinamis
+    var articlesMatches = "";
+    data.matches.forEach(function(item){
+        articlesMatches += `
+        <table style="font-size:16px center;">
+        <thead>
+            <tr> 
+                <th>Team</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th>Matches</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${item.dateFrom}</td>
+                <td>${item.dateTo}</td>            
+            </tr>
+        </tbody>
+        </table>
+            `;
+      });
+     // Sisipkan komponen card ke dalam elemen dengan id #content
+     document.getElementById("articles").innerHTML = articlesMatches;
+    })   
 }
